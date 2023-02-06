@@ -11,10 +11,10 @@ rotate 2 steps to the right: [6,7,1,2,3,4,5]
 rotate 3 steps to the right: [5,6,7,1,2,3,4]
 
 ****************************************    SOLUTION *******************************************************
-
-First reverse the whole array. 0 to size-1
-then reverse the array till desired index (given k here)
-Now, reverse the rest n-k elements 
+In case of Right rotation, 
+     i) First reverse the whole array. 0 to size-1
+    ii) then reverse the array till desired index (given k here)
+   iii) Now, reverse the rest n-k elements 
 
 ------------------------------------------- CODE ---------------------------------------------------------------
 void reverse(vector<int>& arr, int start, int end)
@@ -43,3 +43,30 @@ void reverse(vector<int>& arr, int start, int end)
         //reverse the rest n-k elements
         reverse(nums, k, nums.size()-1);
     }
+
+
+............................................................................................................................................
+In case of left rotation , 
+      i) first reverse the array from 0 to desired index(say, k).
+     ii) then reverse the rest n-k elements i.e., k to last index.
+    iii) Now, reverse the whole array.
+    
+    
+    ALGORITHM :
+        rotateArray(D, 0, k - 1);
+        rotateArray(D, k, n - 1);
+        rotateArray(D, 0, n - 1);
+        
+
+In case of right rotation , 
+      i) reverse the whole array.           
+     ii) then  reverse the array from 0 to desired index(say, k).          
+    iii) Now,  reverse the rest n-k elements i.e., k to last index.
+    
+    
+    ALGORITHM :
+        rotateArray(D, 0, n - 1);
+        rotateArray(D, 0, k - 1);
+        rotateArray(D, k, n - 1);
+        
+ 

@@ -88,3 +88,29 @@ int findMissing(int arr[], int N)
           a1 ⊕ a2 ⊕ a3 ⊕ . . . ⊕ an = X     and     a1 ⊕ a2 ⊕ a3 ⊕ . . . ⊕ an-1 = Y
           
             Then X ⊕ Y = an
+            
+         Since, every element is unique ans is in range [0,n];
+         and we have to find unique element so if we XOR every element then there will xor of every element in range [nums[0],nums[n-1]] instead the mising element.
+         
+         So, first xor all array elements.
+         so our ans will we
+         ans=0^2^3^4 and when we again do xor from range [0,n] then every element will we twice instead of mising elementi.e. ans=(0^2^3^4)^(0^1^2^3^4);
+         so final ans=1.
+         
+         ******************** CODE *************************************************
+         int missingNumber(int A[], int N)
+           {
+                // Your code goes here
+                int ans = 0;
+                // For xor of all the elements in array
+    
+                for(int i = 0; i < N-1; i++)
+                     ans = ans ^ A[i];
+        
+                // For xor of all the elements from 1 to n+1
+    
+                for(int i = 1; i <= N; i++)
+                      ans = ans ^ i;
+
+                return ans; 
+            }

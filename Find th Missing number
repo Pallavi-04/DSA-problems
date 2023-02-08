@@ -1,0 +1,90 @@
+Missing number
+
+Given an array arr[] of size N-1 with integers in the range of [1, N], the task is to find the missing number from the first N integers.
+
+Note: There are no duplicates in the list.
+
+Examples: 
+
+    Input: arr[] = {1, 2, 4, 6, 3, 7, 8}, N = 8
+    Output: 5
+    Explanation: The missing number between 1 to 8 is 5
+    
+--------------------------------------------------  SOLUTION --------------------------------------------------------
+__________________Approach 1 (Using HASHING): 
+
+    The numbers will be in the range (1, N), an array of size N can be maintained to keep record of the elements present in the given array
+
+    Create a temp array temp[] of size n + 1 with all initial values as 0.
+    Traverse the input array arr[], and do following for each arr[i] 
+        if(temp[arr[i]] == 0) temp[arr[i]] = 1 
+    Traverse temp[] and output the array element having value as 0 (This is the missing element).
+    
+ ****************************************** CODE *******************************************************   
+int findMissing(int arr[], int N)
+{
+    int i;
+    int temp[N + 1];
+    for(int i = 0; i <= N; i++){
+      temp[i] = 0;
+    }
+   
+    for(i = 0; i < N; i++){
+      temp[arr[i] - 1] = 1;
+    }
+ 
+ 
+    int ans;
+    for (i = 0; i <= N ; i++) {
+        if (temp[i] == 0)
+            ans = i  + 1;
+    }
+    
+    return ans;
+   }
+   
+   Time Complexity: O(N)
+   Auxiliary Space: O(N)
+   
+   _______________________________ Approach 2  Using SUMMATION of FIRST N Natural Nos.
+   
+       * Calculate the sum of the first N natural numbers as sumtotal= N*(N+1)/2.
+       * Traverse the array from start to end.
+       * Find the sum of all the array elements.
+       * Print the missing number as SumTotal – sum of array
+       
+       ****************************** CODE ******************************
+       int getMissingNo(int a[], int n)
+          {
+                // Given the range of elements
+                 // are 1 more than the size of array
+                  int N = n + 1;
+   
+                  int total = (N) * (N + 1) / 2;
+                   for (int i = 0; i < n; i++)
+                     total -= a[i];
+                  return total;
+          }
+          
+    --------------------------- OR -----------------------
+    int getMissing(int a[], int N)
+    {
+      int total = (N) * (N + 1) / 2;
+      
+      int sum = 0;
+      
+      for(int i = 0; i < N; i++)
+        sum += a[i];
+        
+      return total - sum;
+    }
+    
+    
+ _______________________ Approach 3 (Using BINARY operations): This method uses the technique of XOR to solve the problem.  
+
+    XOR has certain properties 
+
+        Assume,
+          a1 ⊕ a2 ⊕ a3 ⊕ . . . ⊕ an = X     and     a1 ⊕ a2 ⊕ a3 ⊕ . . . ⊕ an-1 = Y
+          
+            Then X ⊕ Y = an

@@ -1,0 +1,41 @@
+Find First Neg in every window size k.
+
+Example - arr[] = {12, -1, -7, 8, -15, 30, 16, 28}
+          k = 3, n = 8 array size 
+  O/P : -1 -1 -7 -15 -15 0
+  
+  ______________________________ APPROACH Brute force _____________________________
+  
+This code uses a for loop to iterate over each window of size k in the input array arr.
+For each window, it uses another for loop to find the first negative number in that window. 
+If a negative number is found, the loop breaks and that number is added to the result vector. 
+If no negative number is found in the current window, 0 is added to the result vector. 
+Finally, the result vector is returned.
+
+***************************** CODE ******************************
+
+vector<int> findFirstNegatives(vector<int> &arr, int k)
+{
+    int n = arr.size();
+    vector<int> result;
+
+    for (int i = 0; i <= n - k; i++) // As after n-k there won't be any window left
+    {
+        int j;
+        for (j = i; j < i + k; j++)
+        {
+            if (arr[j] < 0)
+                break;
+        }
+        if (j == i + k)          // On hitting window size
+            result.push_back(0); // no negative element found in window
+        else
+            result.push_back(arr[j]); // push the negative element in vector
+    }
+
+    return result;
+}
+
+Time Complexity : O(N^2)
+
+_____________________________________ APPROACH 2 SLIDING WINDOW (Fixed)____________________

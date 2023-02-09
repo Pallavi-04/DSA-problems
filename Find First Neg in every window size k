@@ -39,3 +39,44 @@ vector<int> findFirstNegatives(vector<int> &arr, int k)
 Time Complexity : O(N^2)
 
 _____________________________________ APPROACH 2 SLIDING WINDOW (Fixed)____________________
+
+#include <vector>
+#include <queue>
+vector<int> FirstNegInKSliding(vector<int> arr, int k)
+{
+    int size = arr.size();
+
+    vector<int> result;
+    queue<int> l;
+
+    int i = 0, j = 0;
+    while (j < size)
+    {
+        // calculation before if cond.
+        if (arr[j] < 0)
+            l.push(arr[j]);
+
+        if (j - i + 1 == k) // on hitting window size
+        {
+            // 1). ans <-- calculation
+            if (l.size() == 0)       // If no neg element in o/p list
+                result.push_back(0); // 0 is displayed
+
+            else
+            {
+                result.push_back(l.front()); // first -ve return
+
+                if (arr[i] == l.front()) // removing the prev -ve element from o/p list
+                    l.pop();
+            }
+            // 2). sliding the window
+            i++;
+            j++;
+        }
+        // increment j to reach window size
+        else if (j - i + 1 < k)
+            j++;
+    }
+
+    return result;
+}

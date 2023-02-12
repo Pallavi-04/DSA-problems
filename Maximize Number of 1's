@@ -1,0 +1,76 @@
+Given a binary array arr of size N and an integer M. Find the maximum number of consecutive 1's produced by flipping at most M 0's.
+ 
+
+Example 1:
+
+Input:
+N = 3
+arr[] = {1, 0, 1}
+M = 1
+Output:
+3
+Explanation:
+Maximum subarray is of size 3
+which can be made subarray of all 1 after
+flipping two zeros to 1.
+
+****************************************************** CODE -SLIDING WINDOW APPROACH **************************************************
+ int findZeroes(int arr[], int n, int m) {
+        // code here
+        
+        int i = 0, j = 0, zero = 0, ans = INT_MIN;
+        
+        while(j < n)
+        {
+            if(arr[j] == 0)
+                zero++;
+                
+            while(zero > m) //only m zeroes allowed in window
+            {
+                if(arr[i] == 0) //remove calculations due to i
+                    zero--;
+                    
+                i++;            //increment i to slide the window
+            }
+            
+            ans = max(ans, j-i+1);
+            j++;
+        }
+        
+        return ans;
+    }  
+    
+    
+    ****************************** LEETCODE ******************************
+    485. Max Consecutive Ones
+Given a binary array nums, return the maximum number of consecutive 1's in the array.
+
+ 
+
+Example 1:
+
+Input: nums = [1,1,0,1,1,1]
+Output: 3
+Explanation: The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.
+
+Example 2:
+
+Input: nums = [1,0,1,1,0,1]
+Output: 2
+
+
+_________________________ CODE ___________________________________
+int findMaxConsecutiveOnes(vector<int>& nums) {
+        
+        int count = 0;
+        int maxi = 0;
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if(nums[i] == 1)
+                count++;
+            else 
+                count = 0;   // WHENEVER 0 FOUND IN BETWEEN 
+         maxi = max(maxi, count);
+        }
+        return maxi;
+    }

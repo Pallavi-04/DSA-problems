@@ -1,0 +1,57 @@
+Given a matrix mat[][] of size N x M, where every row and column is sorted in increasing order, and a number X is given. The task is to find whether element X is present in the matrix or not.
+
+
+Example 1:
+
+Input:
+N = 3, M = 3
+mat[][] = 3 30 38 
+         44 52 54 
+         57 60 69
+X = 62
+
+Output:
+0
+Explanation:
+62 is not present in the
+matrix, so output is 0
+
+************************************** SOLUTION : BINARY SEARCH *********************************
+int matSearch (vector <vector <int>> &mat, int N, int M, int X)
+	{
+	    // your code here
+	    
+	    for(int i = 0; i < N; i++)
+	    {
+	        if(binary_search(mat[i].begin(), mat[i].end(), X) == true)
+	            return 1;
+	    }
+	    
+	    return 0;
+	}
+  
+  **************************************** SOLUTION 2 TWO-POINTERS APPROACH *******************************************  
+  
+  int matSearch (vector <vector <int>> &mat, int N, int M, int X)
+	{
+	    // your code here
+	    
+	    int i = 0, j = M-1;
+	    while(i < N && j >= 0) {
+	        
+	        if(mat[i][j] == X)
+	            return 1;
+	            
+	        // if number is greater than X then we have to move left
+	        else if(mat[i][j] > X)
+	            j--;
+	            
+	        // if number is lesser than X then we have to move right
+	        else 
+	            i++;
+	    }
+	    
+	    // if we go out of the matrix then we have to return 0 
+	    //that matrix is not found!!!
+	    return 0;
+	   }

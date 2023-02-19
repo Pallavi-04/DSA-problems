@@ -1,0 +1,94 @@
+Given a boolean 2D array of n x m dimensions where each row is sorted. Find the 0-based index of the first row that has the maximum number of 1's.
+
+Example 1:
+
+Input: 
+N = 4 , M = 4
+Arr[][] = {{0, 1, 1, 1},
+           {0, 0, 1, 1},
+           {1, 1, 1, 1},
+           {0, 0, 0, 0}}
+Output: 2
+Explanation: Row 2 contains 4 1's (0-based
+indexing).
+
+
+Example 2:
+
+Input: 
+N = 2, M = 2
+Arr[][] = {{0, 0}, {1, 1}}
+Output: 1
+Explanation: Row 1 contains 2 1's (0-based
+indexing).
+
+--------------------------------------------------------- BRUTE FORCE --------------------------------------------------------
+
+int rowWithMax1s(vector<vector<int> > arr, int n, int m) {
+	    // code here
+	    int ans = -1;
+	    int max = 0;
+	    for(int i = 0; i < n; i++)
+	    {
+	        int count = 0;
+	        for(int j = 0; j < m; j++)
+	        {
+	            if(arr[i][j] == 1)
+	                count++;
+	        }
+	        if(count > max)
+	        {
+	            max = count;
+	            ans = i;
+	        }     
+	    }
+
+
+---------------------------------------------------------- BETTER --------------------------------------------------------------------
+
+Column se chalayenge & jis row ke initial column mein 1 mila wo row hamara answer hoga.
+As, the array is sorted, agar First column mein kisi row ke answer mil raha matlab us row ke baki columns mein bhi 1 hi honge 
+So, the row which has 1 in the least column value is the answer.
+
+int rowWithMax1s(vector<vector<int> > arr, int n, int m) {
+	    // code here
+	    
+	     // column se chalyenge
+        for(int j = 0;j<m;j++){
+
+            for(int i = 0;i<n;i++){
+                //Since the rows are sorted,
+                //if the first column contains 1 in any row, 
+                //that row would be answer ; 
+                // if not , then go on checking further rows for next columns.
+                if(arr[i][j]==1)
+                    return i;
+
+            }
+        }
+        return -1;
+	}
+
+-------------------------------------------------------- OPTIMAL APPROACH ---------------------------------------------------------
+
+int rowWithMax1s(vector<vector<int> > arr, int n, int m) {
+	    // code here
+	    
+	    int col = m-1;
+	    int ans = -1;
+	    //traversing row by row
+	    for(int i = 0; i < n; i++)
+	    {
+	        //last col to first
+	        for(int j = col; j >= 0; j--)
+	        {
+	            if(arr[i][j] == 1)
+	            {
+	                ans = i;
+	                //we'll not see the same column again
+	                col--;
+	            }
+	        }
+	    }
+	    return ans;
+	}

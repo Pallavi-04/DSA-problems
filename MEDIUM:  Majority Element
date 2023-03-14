@@ -1,0 +1,131 @@
+Given an array nums of size n, return the majority element.
+
+The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+ 
+
+Example 1:
+
+Input: nums = [3,2,3]
+Output: 3
+Example 2:
+
+Input: nums = [2,2,1,1,1,2,2]
+Output: 2
+ 
+
+Constraints:
+
+n == nums.length
+1 <= n <= 5 * 104
+-109 <= nums[i] <= 109
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Intuition
+            We can solve this question using Multiple Approaches.
+
+            Solved using Array(Two Nested Loops). Brute Force.
+            Solved using Array + Hash Table.
+            Solved using Array + Sorting.
+            Solved using Array + Counting + Divide and Conquer.
+            Solved using Boyer-Moore Voting Algorithm.
+            
+************************************************************* APPROACH 1 : BRUTE FORCE ***************************************************
+  ------Solved using Array(Two Nested Loops).
+  TC : O(N^2)
+  SC : O(1)
+  CODE : --------------------------
+                                  int majorityElement(vector<int>& nums)
+                                  {
+                                              int countMajority = nums.size()/2;
+                                              
+                                              for(auto num : nums) {  // first loop selecting EACH element of nums at ONCE
+                                                  int count = 0;
+                                                  for(auto element : nums){  // second loop for COUNTING the occurence of each element in nums
+                                                      if(element == num){
+                                                          count++;
+                                                      }
+                                                  }
+                                                  if(count > countMajority){  
+                                                      return num;
+                                                  }
+                                              }
+                                              return 0;
+                                          }
+
+************************************************************* APPROACH 2 :Solved using ARRAY + HASH TABLE ***************************************************
+TC : O(N), We iterate over Array(nums) once and make a constant time HashMap(Unordered map) insertion on each iteration. Therefore, the algorithm runs in O(N) time. 
+
+SC : O(N), Unordered map space. 
+CODE : ---------------------------
+                                    int majorityElement(vector<int>& nums) {
+
+                                            int n = nums.size();
+                                            unordered_map<int, int> map;
+
+                                          // Insertion of elements in Hash Map
+                                            for(auto it : nums)
+                                                map[it]++;
+
+                                         // Checking for the element occuring more than n / 2 times
+                                            for(auto x: map)
+                                            {
+                                                // if(x.second > n/2)
+                                                    if(map[x.first] > n/2)
+                                                        return x.first;
+                                            }
+                                            return 0;
+                                    }
+
+*************************************************************APPROACH 3: Solved using Array + Sorting..*****************************************************************
+TC : O(NlogN)
+SC : O(1)
+    CODE----------------
+                                int majorityElement(vector<int>& nums) {
+                                    sort(nums.begin(), nums.end());
+                                    return nums[nums.size()/2];
+                                }
+                                
+********************************************************* APPROACH 4: Solved using Boyer-Moore Voting Algorithm. ************************************************
+  CODE: -------------------------  OR MOORE'S VOTING ALGORITHM--------------------------------------------------
+                      Think of this array as a collection of votes from the voters for different political parties.
+                      Now as we know the party which has >50% votes can form the government.
+
+                      So , our above question is analogous to this situation.
+                      Now , if we are certain that one party has > 50% votes . Then , if :
+
+                      We increment a count variable every time we see the vote from the majority party and decrement it whenever a vote from some other party is occured , we can guarantee that ,
+                      count>0.
+                      
+                      Using the above logic ,
+
+                            Create a count=0 and a majority variable that stores the current majority element.
+                            Traverse the array , and if count =0 , then store the current element as the majority element and increment the count.
+                            Else , if the current element is equal to the current majority element , increment count , else decrement it.
+                            At the end return the majority element.
+                            This approach works because ,
+
+                            We simply know that the majority element has a frequency greater than half of the total elements.
+                            So , the value of count > 0.
+                            But whenever it becomes 0 , it means that till now the majority element has either not occured , 
+                            or if it has then the its frequency is equal to the sum of frequency of rest of the others. 
+                            So , the next element will be the majority element till now . But eventually by the end ,
+                            the final answer will always be the majority element of the array , as when the "count" becomes 0 for the final time , 
+                            the next element will be the majority element.
+  
+                                     
+         CODE:-------        int majority, count = 0;
+                                         for(int i = 0; i < nums.size(); i++)
+                                         {
+                                             if(count)
+                                                count += (nums[i] == majority ? 1 : -1);
+                                             else 
+                                             {
+                                                 majority = nums[i];
+                                                 count = 1;
+                                             }
+                                         }
+
+                                         return majority;
+                                    }

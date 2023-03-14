@@ -1,0 +1,105 @@
+75. Sort 012s 
+
+Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+
+We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
+
+You must solve this problem without using the library's sort function.
+
+Example 1:
+
+Input: nums = [2,0,2,1,1,0]
+Output: [0,0,1,1,2,2]
+Example 2:
+
+Input: nums = [2,0,1]
+Output: [0,1,2]
+ 
+
+Constraints:
+
+n == nums.length
+1 <= n <= 300
+nums[i] is either 0, 1, or 2.
+
+
+
+-------------------------------------------- APPROACH - 1ST (SORT THE ARRAY) ----------------------------------------------
+            int n = nums.size();
+            sort(nums, nums + n);
+            
+--------------------------------------------APPROACH 2ND (COUNT 0S, 1S & 2S and fill all zeroes first followed by 1s. Lastly insert 2s)------------------
+
+class Solution
+{
+    public:
+    void sort012(int a[], int n)
+    {
+        // code here 
+        int zero = 0, one = 0, two = 0;
+        for(int i = 0; i < n; i++)
+        {
+            if(a[i] == 0)
+               zero++;
+            else if(a[i]== 1)
+                one++;
+            else 
+                two++;
+        }
+        vector<int> v;
+        while(zero--)
+            v.push_back(0);
+        while(one--)
+            v.push_back(1);
+        while(two--)
+            v.push_back(2);
+        
+        for(int i = 0; i < v.size(); i++)
+            a[i] = v[i];
+    }
+    
+};
+
+----------------------------------------------------- APPROACH - 3RD DUTCH NATIONAL FLAG ALGORITHM -------------------------------------------
+Intuition:
+
+        The given code is an implementation of the Dutch national flag problem, where we need to sort an array containing 0's, 1's, and 2's in linear time and in-place.
+
+        The code initializes three pointers: low, mid, and high. The low pointer points to the index before which all elements are 0's, the high pointer points to the index after which all elements are 2's, and the mid pointer points to the current index being processed.
+
+        The algorithm then loops through the array until mid and high pointers meet. For each element, it checks its value using a switch statement (or if-else statements in the equivalent version) and moves it to the appropriate position in the array.
+
+        If the current element is 0, it swaps it with the element pointed by low and increments both low and mid pointers to move forward in the array. If the current element is 1, it simply increments the mid pointer to move forward. If the current element is 2, it swaps it with the element pointed by high and decrements the high pointer to move backward in the array.
+
+        After the loop, the array is sorted in-place, and all 0's will be before all 1's, which will be before all 2's.
+
+        
+    CODE -------
+          class Solution {
+                  public:
+                          void sortColors(vector<int>& nums) {
+                              int low = 0;
+                              int mid = 0;
+                              int high = nums.size() - 1;
+
+                              while(mid <= high){
+                                  switch(nums[mid]){
+
+                                      //if the element is 0
+                                      case 0:
+                                          swap(nums[low++], nums[mid++]);
+                                          break;
+
+                                      // if the element is 1
+                                      case 1:
+                                          mid++;
+                                          break;
+
+                                      // if the element is 2
+                                      case 2:
+                                          swap(nums[mid], nums[high--]);
+                                          break;
+                                  }
+                              }
+                          }
+                      };

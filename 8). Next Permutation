@@ -88,3 +88,37 @@ Step 2: If the index value received from step 1 is less than 0. This means the g
 Step 3: Swap values present in indices found in the above two steps.
 
 Step 4: Reverse array from index+1 where the index is found at step 1 till the end of the array.
+
+
+     CODE------------------------------------
+                       void nextPermutation(vector<int>& nums) {
+
+                          int n = nums.size();
+                          //Finding breakpoint or the dip
+                          int ind = -1;
+                          for(int i = n-2; i >= 0; i--)
+                          {
+                              if(nums[i] < nums[i+1])
+                              {
+                                  ind = i;
+                                  break;
+                              }
+                          }
+                          //Edge case: if no dip found , rev the arr
+                          if(ind == -1)
+                          {
+                              reverse(nums.begin(), nums.end());
+                               return;
+                          }
+                          //Generate longest prefix by swapping index ele with its next greater ele
+                          for(int i = n-1; i >= ind && ind != -1; i--)
+                          {
+                              if(nums[i] > nums[ind])
+                              {
+                                  swap(nums[i], nums[ind]);
+                                  break;
+                              }
+                          }
+                          //Arrange the remaining after breakpoint in ascending
+                          reverse(nums.begin() + ind + 1, nums.end());
+                      }

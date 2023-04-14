@@ -1,0 +1,107 @@
+Given an array A of positive integers. Your task is to find the leaders in the array. An element of array is leader if it is greater than or equal to all the elements to its right side. The rightmost element is always a leader. 
+
+ 
+
+Example 1:
+
+Input:
+n = 6
+A[] = {16,17,4,3,5,2}
+Output: 17 5 2
+Explanation: The first leader is 17 
+as it is greater than all the elements
+to its right.  Similarly, the next 
+leader is 5. The right most element 
+is always a leader so it is also 
+included.
+ 
+
+Example 2:
+
+Input:
+n = 5
+A[] = {1,2,3,4,0}
+Output: 4 0
+ 
+
+Your Task:
+You don't need to read input or print anything. The task is to complete the function leader() which takes array A and n as input parameters and returns an array of leaders in order of their appearance.
+
+ 
+
+Expected Time Complexity: O(n)
+Expected Auxiliary Space: O(n)
+
+
+
+
+-----------------------------------------------------------------------BRUTE FORCE O(N2)-----------------------------------------------------------------
+Approach
+
+In this brute force approach, we start checking all the elements from the start of the array to the end to see if an element is greater than all the elements on its right (i.e, the leader).
+For this, we will use nested loops where the outer loop will check for each element in the array whether it is a leader or not.
+The inner loop checks if there is any element to the right that is greater than the element currently traversed by the outer loop.
+We start by initializing the outer loop pointer to the start element and setting it as the current leader.
+If any element traversed is found greater than the element currently set as a leader, it will not go to the ans array and we increment the outer loop pointer by 1 and set the next element as the current leader.
+If we don’t find any other element to the right greater than the current element, then we push the current element to the ans array stating that is it the leader element.
+Code:
+
+vector<int> printLeadersBruteForce(int arr[], int n) {
+
+  vector<int> ans;
+  
+  for (int i = 0; i < n; i++) {
+    bool leader = true;
+
+    //Checking whether arr[i] is greater than all 
+    //the elements in its right side
+    for (int j = i + 1; j < n; j++)
+      if (arr[j] > arr[i]) {
+          
+        // If any element found is greater than current leader
+        // curr element is not the leader.
+        leader = false;
+        break;
+      }
+
+    // Push all the leaders in ans array.
+    if (leader)
+    ans.push_back(arr[i]);
+
+  }
+  
+  return ans;
+}
+
+
+
+---------------------------------------------------------------------OPTIMAL - O(N), O(N)---------------------------------------------------------------------
+APPROACH ------------In the above approach, we do a fresh traversal for each candidate.
+If we think carefully, we only want to compare the elements on the right side. So, what if we start from the last element?
+That is, we’ll try to remember the greatest element encountered so far and we’ll use that to decide whether a candidate is a leader or not.
+First, we’ll start the traversal from the right. Then, we move toward the left. Whenever we encounter a new element,
+we check with the greatest element obtained so far.
+If the current element is greater than the greatest so far, then the current element is one of the leaders and we update the greatest element.
+Else, we proceed with the further elements on the left. This method prints the leaders in the reverse direction of their occurrences. 
+If we are concerned about the order, we can use an extra array or a string to order.
+
+vector<int> leaders(int a[], int n){
+        // Code here
+        
+       vector<int> v;
+       
+       int max_frm_ri8 = a[n-1];
+       v.push_back(max_frm_ri8);
+       
+       for(int i = n-2; i >= 0; i--)
+       {
+           if(a[i] >= max_frm_ri8)
+           {
+                max_frm_ri8 = a[i];
+                v.push_back(max_frm_ri8);
+           }
+       }
+       
+       reverse(v.begin(), v.end());
+       return v;
+    }

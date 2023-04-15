@@ -1,0 +1,99 @@
+Given an array of positive integers. Find the length of the longest sub-sequence such that elements in the subsequence are consecutive integers, the consecutive numbers can be in any order.
+ 
+
+Example 1:
+
+Input:
+N = 7
+a[] = {2,6,1,9,4,5,3}
+Output:
+6
+Explanation:
+The consecutive numbers here
+are 1, 2, 3, 4, 5, 6. These 6 
+numbers form the longest consecutive
+subsquence.
+Example 2:
+
+Input:
+N = 7
+a[] = {1,9,3,10,4,20,2}
+Output:
+4
+Explanation:
+1, 2, 3, 4 is the longest
+consecutive subsequence.
+
+
+---------------------------------------------------------Solution 1: (Brute force) -----------------------------------------------------------
+Approach: We can simply sort the array and run a for loop to find the longest consecutive sequence.
+
+Code: 
+        sort(arr, arr+N);
+        int maxi = 1, count = 1;
+        for(int i = 1; i < N; i++)
+        {
+            if(arr[i] - arr[i-1] == 1)  //consecutive
+            {
+                count++;
+            }
+            else if(arr[i] == arr[i-1]) continue;  //same element
+            
+            else {                              // neither consecutive nor same : reset count
+                count = 1;
+            }
+            
+            maxi = max(maxi, count);
+        }
+        return maxi;
+        
+     ---------------------------------- sOLUTION 2 - (Optimal Approach) -----------------------------------------------------------
+     Approach: We will first push all elements in the HashSet.
+           Then we will run a for loop and check for any number(x) if it is the starting number of the consecutive sequence by checking
+           if the HashSet contains (x-1) or not. If ‘x’ is the starting number of the consecutive sequence we will keep searching for the numbers
+           y = x+1, x+2, x+3, ….. And stop at the first ‘y’ which is not present in the HashSet. 
+           Using this we can calculate the length of the longest consecutive subsequence. 
+
+
+     1) Insert all the elements into Hash set
+     2) Keep a var longestStreak = 0 that will compute the maximum of all the consecutive sequences that we get
+     3) Linearly iterate over the given array, 
+              a) At first, always chaeck if a no. lesser than the curr ele is present in Hash set or not
+                if not present then it will be first element of the consecutive series 
+                
+CODE ----------------------------------------------------------------------------------------                
+                      int findLongestConseqSubseq(int arr[], int N)
+                      { 
+                         if(N == 0)
+                          return 0;
+
+                        //insert the integers into set
+                        set<int> hash_Set;
+                        for(int i = 0; i < N; i++)
+                          hash_Set.insert(arr[i]);
+
+                        int longest_Streak = 1;
+                        for(auto ele : hash_Set)
+                        {
+                            if(!hash_Set.count(ele - 1))   //if ele smaller than curr ele not present
+                            {
+                                int currStreak = 1;
+                                int currNum = ele;
+
+                                while(hash_Set.count(currNum + 1)) // check for the greater ele than currNum
+                                {
+                                    currStreak += 1;
+                                    currNum += 1;
+                                }
+
+                                longest_Streak = max(currStreak, longest_Streak);
+                            }
+                        }
+
+                        return longest_Streak;
+                      }
+                      
+TC -- O(N) for pushing every element in list/set (!st iteration)
+      + O(N) for the iteration that we do over the arrray
+      + O(N) 
+SC ----- O(N) for set      

@@ -177,3 +177,28 @@ public:
             nums.push_back(0);
     }
 };
+
+
+------------------------------------------------ OPTIMAL APPROACH - Using two pointers ---------------------------------------
+             
+	   
+                          	//a). First, figure out the FIRST ZEROth index
+                          	    int zero = -1;
+                          	   for(int i = 0; i < n; i++)
+                          	   {
+                          	       if(arr[i] == 0) {
+                          	           zero = i;
+                          	           break;
+                          	       }
+                          	   }
+                          	   if(zero == -1) return;
+                          	   
+                               //b). Second, iterate i till end of array and swap zeroth and non-zero elements
+                               for(int i = zero+1; i < n; i++)
+                               {
+                                   if(arr[i] != 0) {
+                                       swap(arr[i], arr[zero]);     // MOVE J on swapping 
+                                       zero++;
+                                   }
+                               }
+	   

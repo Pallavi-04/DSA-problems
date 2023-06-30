@@ -13,6 +13,32 @@ rotate 3 steps to the right: [5,6,7,1,2,3,4]
 ****************************************    SOLUTION *******************************************************
 
 ````````````````````````````````````````BRUTE - FORCE APPROACH ````````````````````````````````````````````````
+   void rotate(vector<int>& nums, int k) {
+
+        int n = nums.size();
+        k = k % n;
+        if( n == 0 || k == 0 ) return;
+
+     //store last three elements in temp space
+        int temp[k];
+        int j = 0;
+        for(int i = n-k; i < n; i++)
+            temp[j++]= nums[i];
+
+    //shifting rest n-k elements
+        for(int i = n-1; i >= k; i--)
+        {
+            nums[i] = nums[i-k];
+        }
+
+    //restoring k elements
+        for(int i = 0; i < k; i++)
+            nums[i] = temp[i];
+
+    }
+TC - O(d) + O(n-d) + O(d) = O(n+d)
+SC - O(d)
+---------------------------------------------------------------------------
 We'll take a temporary space say a vector v
 At first, push last n-d elements into v
 Then, push first d elements into v
